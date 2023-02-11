@@ -1,0 +1,23 @@
+.game {
+  $size: 80vh;
+  width: $size;
+  height: $size;
+  display: grid;
+  margin: 10vh auto;
+  gap: 0.5rem;
+  grid-template-columns: repeat(11, 1fr);
+  grid-template-rows: repeat(11, 1fr);
+
+  &__tile {
+    background: rgb(216, 216, 216);
+    border-radius: 0.3rem;
+
+    &--snake {
+      background: rgb(105, 224, 46) !important;
+    }
+
+    &--coin {
+      background: rgb(255, 221, 0);
+    }
+  }
+}
