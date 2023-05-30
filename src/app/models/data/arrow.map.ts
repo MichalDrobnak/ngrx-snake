@@ -1,4 +1,4 @@
-import { EDirection } from './direction.enum';
+import { EDirection } from '@models/enums';
 
 export const arrowMap = new Map<string, EDirection>([
   ['ArrowUp', EDirection.UP],

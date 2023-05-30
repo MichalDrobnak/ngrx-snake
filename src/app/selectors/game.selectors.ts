@@ -1,5 +1,5 @@
+import { IAppState, IGame } from '@models/interfaces';
 import { createSelector } from '@ngrx/store';
-import { IAppState, IGame } from '../models';
 
 const selectGame = ({ game }: IAppState) => game;
 

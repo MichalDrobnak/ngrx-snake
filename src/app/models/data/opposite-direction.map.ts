@@ -1,4 +1,4 @@
-import { EDirection } from './direction.enum';
+import { EDirection } from '@models/enums';
 
 export const oppositeDirectionMap = new Map<EDirection, EDirection>([
   [EDirection.UP, EDirection.DOWN],

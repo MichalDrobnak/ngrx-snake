@@ -1,12 +1,14 @@
 .game {
-  $size: 80vh;
-  width: $size;
-  height: $size;
+  $game-size: 80vh;
+  $tile-count: 11;
+
+  width: $game-size;
+  height: $game-size;
   display: grid;
-  margin: 10vh auto;
+  margin: 5vh auto;
   gap: 0.5rem;
-  grid-template-columns: repeat(11, 1fr);
-  grid-template-rows: repeat(11, 1fr);
+  grid-template-columns: repeat($tile-count, 1fr);
+  grid-template-rows: repeat($tile-count, 1fr);
 
   &__tile {
     background: rgb(216, 216, 216);

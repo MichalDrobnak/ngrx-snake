@@ -1,5 +1,5 @@
+import { EDirection } from '@models/enums';
 import { IPoint } from '.';
-import { EDirection } from './direction.enum';
 
 export interface IGame {
   points: number;

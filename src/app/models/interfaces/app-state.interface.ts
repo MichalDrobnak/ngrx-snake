@@ -1,4 +1,4 @@
-import { IGame } from './game.interface';
+import { IGame } from '@models/interfaces';
 
 export interface IAppState {
   game: IGame;

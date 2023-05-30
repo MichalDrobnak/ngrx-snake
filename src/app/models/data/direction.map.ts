@@ -1,5 +1,5 @@
-import { EDirection } from './direction.enum';
-import { IPoint } from './point.interface';
+import { EDirection } from '@models/enums';
+import { IPoint } from '@models/interfaces';
 
 export const directionMap = new Map<EDirection, IPoint>([
   [EDirection.UP, { x: 0, y: -1 }],

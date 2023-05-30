@@ -1,4 +1,4 @@
-import { IPoint } from '../models';
+import { IPoint } from '@models/interfaces';
 
 export const cmpPoints = (
   { x: x1, y: y1 }: IPoint,

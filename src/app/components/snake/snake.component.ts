@@ -4,13 +4,14 @@ import {
   Component,
   HostListener,
   OnInit,
+  Signal,
 } from '@angular/core';
-import { IPoint } from 'src/app/models';
-import { arrowMap } from 'src/app/models/arrow.map';
-import { GAME_SIZE } from 'src/app/models/constants';
-import { RangePipe } from 'src/app/pipes/range.pipe';
-import { GameService } from 'src/app/services/game.service';
-import { cmpPoints } from 'src/app/utils/compare-points';
+import { toSignal } from '@angular/core/rxjs-interop';
+import { GAME_SIZE, arrowMap } from '@models/data';
+import { IPoint } from '@models/interfaces';
+import { RangePipe } from '@pipes';
+import { GameService } from '@services';
+import { cmpPoints } from '@utils';
 
 @Component({
   selector: 'app-snake',
@@ -22,20 +23,25 @@ import { cmpPoints } from 'src/app/utils/compare-points';
 })
 export class SnakeComponent implements OnInit {
   readonly gameSize = GAME_SIZE;
+  readonly snakeSignal: Signal<IPoint[]>;
+  readonly coinsSignal: Signal<IPoint[]>;
 
-  constructor(public gameS: GameService) {}
+  constructor(private _gameS: GameService) {
+    this.snakeSignal = toSignal(_gameS.snake$, { requireSync: true });
+    this.coinsSignal = toSignal(_gameS.coins$, { requireSync: true });
+  }
 
   @HostListener('window:keydown', ['$event'])
   keyEvent(event: KeyboardEvent) {
     const newDirection = arrowMap.get(event.key);
 
     if (newDirection !== undefined) {
-      this.gameS.changeDirection(newDirection);
+      this._gameS.changeDirection(newDirection);
     }
   }
 
   ngOnInit(): void {
-    this.gameS.game();
+    this._gameS.game();
   }
 
   isSnake(tileIndex: number, snake: IPoint[]): boolean {
@@ -46,6 +52,15 @@ export class SnakeComponent implements OnInit {
   isCoin(tileIndex: number, coins: IPoint[]): boolean {
     const point = this._pointFromIndex(tileIndex);
     return coins.some((coinPoint) => cmpPoints(point, coinPoint));
+  }
+
+  onSetSpeed(event: SubmitEvent, value: string): void {
+    event.preventDefault();
+    this._gameS.changeSpeed(Number(value));
+  }
+
+  onToggle(): void {
+    this._gameS.toggle();
   }
 
   private _pointFromIndex(tileIndex: number): IPoint {

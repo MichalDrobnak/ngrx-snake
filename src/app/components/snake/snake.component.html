@@ -1,14 +1,21 @@
-<div
-  *ngIf="{
-    snake: (gameS.snake$ | async),
-    coins: (gameS.coins$ | async)
-  } as data"
-  class="game"
->
+<form (submit)="onSetSpeed($event, speedInput.value)">
+  <input
+    #speedInput
+    type="number"
+    name="speed"
+    id="speed"
+    placeholder="Game speed (ms)"
+  />
+  <button type="submit">Set</button>
+</form>
+
+<button (click)="onToggle()" type="button">Toggle</button>
+
+<div class="game">
   <div
     *ngFor="let i of gameSize * gameSize | range"
-    [class.game__tile--snake]="isSnake(i, data.snake!)"
-    [class.game__tile--coin]="isCoin(i, data.coins!)"
+    [class.game__tile--snake]="isSnake(i, snakeSignal())"
+    [class.game__tile--coin]="isCoin(i, coinsSignal())"
     class="game__tile"
   ></div>
 </div>

@@ -1,14 +1,16 @@
-import { createReducer, on } from '@ngrx/store';
 import {
-  changeDirection,
-  gameOver,
-  getCoin,
-  move,
-  spawnCoin,
-} from '../actions';
-import { directionMap, EDirection, IGame, IPoint } from '../models';
-import { GAME_SIZE } from '../models/constants';
-import { cmpPoints } from '../utils/compare-points';
+  changedDirection,
+  collectedCoin,
+  hitTheTail,
+  hitTheWall,
+  moved,
+  spawnedCoin,
+} from '@appactions';
+import { GAME_SIZE, directionMap } from '@models/data';
+import { EDirection } from '@models/enums';
+import { IGame, IPoint } from '@models/interfaces';
+import { createReducer, on } from '@ngrx/store';
+import { cmpPoints } from '@utils';
 
 const CENTER = Math.floor(GAME_SIZE / 2);
 
@@ -21,21 +23,21 @@ const INITIAL_STATE: IGame = {
 
 export const gameReducer = createReducer(
   INITIAL_STATE,
-  on(move, (state) => ({
+  on(moved, (state) => ({
     ...state,
     snake: moveSnake(state.snake, state.direction, state.points),
   })),
-  on(changeDirection, (state, { direction }) => ({ ...state, direction })),
-  on(spawnCoin, (state, { coin }) => ({
+  on(changedDirection, (state, { direction }) => ({ ...state, direction })),
+  on(spawnedCoin, (state, { coin }) => ({
     ...state,
     coins: [...state.coins, coin],
   })),
-  on(getCoin, (state, { coin: gottenCoin }) => ({
+  on(collectedCoin, (state, { coin: gottenCoin }) => ({
     ...state,
     coins: [...state.coins.filter((coin) => !cmpPoints(coin, gottenCoin))],
     points: state.points + 1,
   })),
-  on(gameOver, () => INITIAL_STATE)
+  on(hitTheTail, hitTheWall, () => INITIAL_STATE)
 );
 
 const moveSnake = (
